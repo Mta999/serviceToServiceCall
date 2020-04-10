@@ -12,7 +12,7 @@ export const BookSchema = new Schema({
     name: {
         type: Array
     },
-    authorId: Number
+    authorId: String
 });
 
 
@@ -24,7 +24,7 @@ export const Book = async () => {
             console.log("Successfully Connected!");
         }
     });
-    const Book = model("Book", BookSchema, "Book");
+    const Book = model("books", BookSchema, "books");
     return Book
 }
 
