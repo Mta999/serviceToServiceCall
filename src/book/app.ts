@@ -1,8 +1,7 @@
-import express, { Request, Response } from "express";
+import * as express  from "express";
 import * as bodyParser from "body-parser"
 
 import {allBooks,getBook,addBook} from "./bookController";
-
 
 // Our Express APP config
 const PORT = process.env.PORT || 3000;
@@ -14,7 +13,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // API Endpoints
-app.get("/", (req: Request, res: Response) => res.send("hi"))
+// app.get("/", (req: Request, res: Response) => res.send("hi"))
 
 // API Endpoints
 

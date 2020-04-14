@@ -30,7 +30,6 @@ export const getBook = async (req: Request, res: Response, next: NextFunction) =
 };
 
 export const addBook = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body)
     try {
         const model = await Book();
         const book = await model.create(
@@ -38,11 +37,9 @@ export const addBook = async (req: Request, res: Response, next: NextFunction) =
                 name: req.body.name,
                 authorId:req.body.authorId
            })
-           console.log("lava")
         res.json(book)
     }catch (error) {
         next(error)
-        console.log("vata")
     }
 };
 

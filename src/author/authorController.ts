@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { Author } from "./author";
 import { NextFunction } from "connect";
 
+const axios = require('axios');
+
+
 // We'll start with allAuthors which will return
 // every we have from our database
 
@@ -9,17 +12,34 @@ export const allAuthors = async (req: Request, res: Response, next: NextFunction
     try {
         const model = await Author();
         const authors = await model.find();
-        res.json(authors)
+        const books = await axios.get('http://localhost:3000/books');
+
+        const bookData = books.data;
+
+        const results = [];
+
+        authors.map((author) => {
+            bookData.map((book) => {
+                if (author.id == book.id) {
+                    results.push(author, book)
+                }
+            })
+        })
+        // console.log(authors);
+        // console.log(x.data)
+        res.json(results)
+        // res.json(books.data)
+        // res.json(authors)
     } catch (error) {
         next(error)
 
     }
-   
+
 };
 
 export const getAuthor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const model = await Author();
         const author = await model.findOne({
             id,
@@ -38,11 +58,11 @@ export const addAuthor = async (req: Request, res: Response, next: NextFunction)
         const author = await model.create(
             {
                 name: req.body.name,
-                id:req.body.id
-           })
-           console.log("lava")
+                id: req.body.id
+            })
+        console.log("lava")
         res.json(author)
-    }catch (error) {
+    } catch (error) {
         next(error)
         console.log("vata")
 
