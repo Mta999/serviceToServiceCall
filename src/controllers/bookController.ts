@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Book } from "./book";
+import { Book } from "../services/book";
 import { NextFunction } from "connect";
 
 // We'll start with allBooks which will return
@@ -13,9 +13,7 @@ export const allBooks = async (req: Request, res: Response, next: NextFunction) 
     } catch (error) {
         next(error)
     }
-   
 };
-
 export const getBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {id} = req.params
