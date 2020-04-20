@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+//@ts-ignore
+import * as express from "express";
 import * as bodyParser from "body-parser"
 
 import  {getAuthor, allAuthors, addAuthor } from "./authorController";
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // API Endpoints
-app.get("/", (req: Request, res: Response) => res.send("hi"))
+// app.get("/", (req: Request, res: Response) => res.send("hi"))
 
 // API Endpoints
 
