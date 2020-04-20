@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { Author } from "./author";
+import { Author } from "../services/author";
 import { NextFunction } from "connect";
+import axios from "axios"
 
-const axios = require('axios');
+// const axios = require('axios');
 
 
 // We'll start with allAuthors which will return
@@ -18,18 +19,20 @@ export const allAuthors = async (req: Request, res: Response, next: NextFunction
 
         const results = [];
 
+
         authors.map((author) => {
             bookData.map((book) => {
                 if (author.id == book.id) {
-                    results.push(author, book)
+                    author = {
+                        id : author.id,
+                        authorName : author.authorName ,
+                        bookName: book.bookName
+                    }
+                    results.push(author)
                 }
             })
         })
-        // console.log(authors);
-        // console.log(x.data)
         res.json(results)
-        // res.json(books.data)
-        // res.json(authors)
     } catch (error) {
         next(error)
 

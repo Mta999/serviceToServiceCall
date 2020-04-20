@@ -1,21 +1,22 @@
 import { connect, model, Schema } from "mongoose";
 
-// const uri: string = "mongodb://localhost:27017/authors";
+// const uri: string = "mongodb://localhost:27017/books";
 
 const mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017';
-const database = process.env.MONGODB_DATABASE_AUTHORS || 'authors';
+const database = process.env.MONGODB_DATABASE_BOOKS || 'books';
 
 const uri: string = [mongoUrl, database].join("/")
 
-const AuthorSchema = new Schema({
-    name: {
-        type: String,
-        required: true
+
+export const BookSchema = new Schema({
+    bookName: {
+        type: Array
     },
-    id: String,
+    authorId: String
 });
 
-export const Author = async () => {
+
+export const Book = async () => {
     await connect(uri, (err: any) => {
         if (err) {
             console.log(err.message);
@@ -23,8 +24,7 @@ export const Author = async () => {
             console.log("Successfully Connected!");
         }
     });
-    const Author = model("authors", AuthorSchema, "authors");
-    return Author
+    const Book = model("books", BookSchema, "books");
+    return Book
 }
-
 

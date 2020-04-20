@@ -16,7 +16,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "starta": "ts-node src/author/app.ts",
-    "startb": "ts-node src/book/app.ts"
+    "starta": "ts-node src/authorServer.ts",
+    "startb": "ts-node src/bookserver.ts"
   }
 }
