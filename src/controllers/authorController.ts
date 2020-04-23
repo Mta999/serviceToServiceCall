@@ -3,6 +3,7 @@ import { Author } from '../models';
 import { reduce, map } from 'lodash';
 import { NextFunction } from 'connect';
 import axios from 'axios';
+import { getAllAuthors, getOneAuthor, addTheAuthor } from '../services';
 
 // const axios = require('axios');
 
@@ -12,22 +13,24 @@ import axios from 'axios';
 
 export const allAuthors = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const model = await Author();
-        const authors = await model.find();
+        const authors = await getAllAuthors();
         const books = await axios.get('http://localhost:3000/books');
 
         const bookData = books.data;
-
         // const results = [];
         const results = reduce(authors, (acc, el) => {
             map(bookData, (book) => {
                 if (book.id === el.id) {
-                    acc.push({...el, bookName: book.bookName});
+                    acc.push({
+                        id: el.id,
+                        authorName: el.authorName,
+                        bookName: book.bookName
+                    });
                     return acc;
                 }
             });
             return acc;
-         }, []);
+        }, []);
 
         // authors.map((author) => {
         //     bookData.map((book) => {
@@ -44,40 +47,43 @@ export const allAuthors = async (req: Request, res: Response, next: NextFunction
         res.json(results);
     } catch (error) {
         next(error);
-
     }
-
 };
 
 export const getAuthor = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const model = await Author();
-        const author = await model.findOne({
-            id,
+        const author = await getOneAuthor(id);
+        const book = await axios.get(`http://localhost:3000/books`);
+
+        const bookData = book.data;
+        // console.log(bookData)
+        const results = [];
+        bookData.map((elem) => {
+            if (elem.id === id) {
+                // results.push(elem)
+                elem = {
+                        id : elem.id,
+                        authorName : author.authorName ,
+                        bookName: elem.bookName
+                    };
+                    results.push(elem);
+            }
+
         });
-        res.json(author);
+        res.json(results);
     } catch (error) {
         next(error);
     }
 };
 
 export const addAuthor = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-    // console.log(req.body)
     try {
-        const model = await Author();
-        const author = await model.create(
-            {
-                name: req.body.name,
-                id: req.body.id
-            });
-        console.log('lava');
+        const { authorId, name} = req.body;
+        const author = await addTheAuthor(authorId, name);
         res.json(author);
     } catch (error) {
         next(error);
-        console.log('vata');
-
     }
 };
 

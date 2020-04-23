@@ -1,4 +1,4 @@
-import { connect, model, Schema } from 'mongoose';
+import { connect, model, Schema, Document } from 'mongoose';
 
 const mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017';
 const database = process.env.MONGODB_DATABASE_AUTHORS || 'authors';
@@ -13,7 +13,12 @@ const AuthorSchema = new Schema({
     id: String,
 });
 
-export const Author = async () : Promise<any> => {
+interface AuthorInterface extends Document  {
+    authorName: string;
+    authorId: string;
+}
+
+const Author = async () : Promise<any> => {
     await connect(uri, (err: any) => {
         if (err) {
             console.error(err.message);
@@ -21,8 +26,8 @@ export const Author = async () : Promise<any> => {
             console.log('Successfully Connected!');
         }
     });
-    return model('authors', AuthorSchema, 'authors');
-    
+    return model<AuthorInterface>('authors', AuthorSchema, 'authors');
 };
-
-
+export {
+    AuthorSchema, AuthorInterface, Author
+};

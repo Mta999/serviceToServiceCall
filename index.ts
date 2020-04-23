@@ -1,22 +1,22 @@
 const obj1: {
-    name:string,
+    name: string,
     lastName: string,
-    age?:number
+    age?: number
 } = {
-    name:"vzgo",
-    lastName: "petrosyan",
-}
+    name: 'vzgo',
+    lastName: 'petrosyan',
+};
 
-const obj2= {
-    email: "ex@mail.ru",
+const obj2 = {
+    email: 'ex@mail.ru',
     age: 25
-}
+};
 
 const obj3 = {
    ...obj1,
-   age:obj2.age
-}
+   age: obj2.age
+};
 
-obj1.age = obj2.age 
+obj1.age = obj2.age; 
 
-console.log(obj1)
+console.log(obj1);

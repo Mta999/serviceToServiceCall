@@ -1,7 +1,7 @@
 //@ts-ignore
 import { Router } from 'express';
 
-import  { getAuthor, allAuthors, addAuthor } from '../controllers/authorController';
+import  { getAuthor, allAuthors, addAuthor } from '../controllers';
 
 
 // const app = express();

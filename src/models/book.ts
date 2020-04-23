@@ -16,7 +16,7 @@ const BookSchema: Schema = new Schema({
 
 interface BookInterface extends Document  {
     bookName: string;
-    authorId: String;
+    authorId: string;
 }
 
 const Book = async () => {
@@ -32,5 +32,5 @@ const Book = async () => {
 
 
 export {
-    BookSchema, BookInterface, Book,
+    BookSchema, BookInterface, Book
 };

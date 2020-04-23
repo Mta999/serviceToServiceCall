@@ -32,25 +32,6 @@ export const addBook = async (req: Request, res: Response, next: NextFunction) =
         next(error);
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // export const deleteBook = async (req: Request, res: Response) => {
 //     const model = await Book();
 //     const book = await model.deleteOne({ _id: req.params.id }, (err: any) => {

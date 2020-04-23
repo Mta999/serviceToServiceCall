@@ -1,4 +1,4 @@
-import { Book, BookInterface } from '../models/book';
+import { Book, BookInterface } from '../models';
 
 const getAllBooks = async (): Promise<BookInterface[]> => {
     const model = await Book();
