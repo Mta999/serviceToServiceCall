@@ -1,16 +1,18 @@
 //@ts-ignore
-import { Router } from "express";
+import { Router } from 'express';
 
-import  {getAuthor, allAuthors, addAuthor } from "../controllers/authorController";
+import  { getAuthor, allAuthors, addAuthor } from '../controllers/authorController';
 
 
 // const app = express();
-const router = Router();
+const authorRouter = Router();
 
-router.get("/authors", allAuthors);
-router.get("/author/:id", getAuthor);
-router.post("/author", addAuthor);
+authorRouter.get('/authors', allAuthors);
+authorRouter.get('/author/:id', getAuthor);
+authorRouter.post('/author', addAuthor);
 // app.put("/author/:id", authorController.updateAuthor);
 // app.delete("/author/:id", authorController.deleteAuthor);
 
-export default router;
+export  {
+    authorRouter
+};

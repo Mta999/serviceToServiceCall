@@ -1,30 +1,28 @@
-import { connect, model, Schema } from "mongoose";
+import { Book, BookInterface } from '../models/book';
 
-// const uri: string = "mongodb://localhost:27017/books";
+const getAllBooks = async (): Promise<BookInterface[]> => {
+    const model = await Book();
+    return await model.find();
+};
+const getOneBook = async (id: string): Promise<BookInterface> => {
 
-const mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017';
-const database = process.env.MONGODB_DATABASE_BOOKS || 'books';
+    const model = await Book();
+    return await model.findOne({
+        id,
+     });
+};
 
-const uri: string = [mongoUrl, database].join("/")
+const addTheBook = async (authorId: string, name: string, ): Promise<BookInterface> => { 
+    const model = await Book();
+    return await model.create(
+        {
+            name,
+            authorId,
+       });
+};
 
-
-export const BookSchema = new Schema({
-    bookName: {
-        type: Array
-    },
-    authorId: String
-});
-
-
-export const Book = async () => {
-    await connect(uri, (err: any) => {
-        if (err) {
-            console.log(err.message);
-        } else {
-            console.log("Successfully Connected!");
-        }
-    });
-    const Book = model("books", BookSchema, "books");
-    return Book
-}
-
+export {
+    getAllBooks,
+    getOneBook,
+    addTheBook
+};

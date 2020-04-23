@@ -1,43 +1,35 @@
-import { Request, Response } from "express";
-import { Book } from "../services/book";
-import { NextFunction } from "connect";
+import { Request, Response } from 'express';
+import { NextFunction } from 'connect';
+import { getAllBooks, getOneBook, addTheBook } from '../services';
 
 // We'll start with allBooks which will return
 // every we have from our database
 
 export const allBooks = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const model = await Book();
-        const books = await model.find();
-        res.json(books)
+        const books = await getAllBooks();
+        res.json(books);
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
 export const getBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {id} = req.params
-        const model = await Book();
-        const book = await model.findOne({
-           id,
-        })
- res.json(book)
+        const { id } = req.params;
+        const book = await getOneBook(id);
+        res.json(book);
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
 
 export const addBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const model = await Book();
-        const book = await model.create(
-            {
-                name: req.body.name,
-                authorId:req.body.authorId
-           })
-        res.json(book)
+        const { authorId, name} = req.body;
+        const book = await addTheBook(authorId, name);
+        res.json(book);
     }catch (error) {
-        next(error)
+        next(error);
     }
 };
 

@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
-import { Author } from "../services/author";
-import { NextFunction } from "connect";
-import axios from "axios"
+import { Request, Response } from 'express';
+import { Author } from '../models';
+import { reduce, map } from 'lodash';
+import { NextFunction } from 'connect';
+import axios from 'axios';
 
 // const axios = require('axios');
 
@@ -17,24 +18,32 @@ export const allAuthors = async (req: Request, res: Response, next: NextFunction
 
         const bookData = books.data;
 
-        const results = [];
-
-
-        authors.map((author) => {
-            bookData.map((book) => {
-                if (author.id == book.id) {
-                    author = {
-                        id : author.id,
-                        authorName : author.authorName ,
-                        bookName: book.bookName
-                    }
-                    results.push(author)
+        // const results = [];
+        const results = reduce(authors, (acc, el) => {
+            map(bookData, (book) => {
+                if (book.id === el.id) {
+                    acc.push({...el, bookName: book.bookName});
+                    return acc;
                 }
-            })
-        })
-        res.json(results)
+            });
+            return acc;
+         }, []);
+
+        // authors.map((author) => {
+        //     bookData.map((book) => {
+        //         if (author.id === book.id) {
+        //             author = {
+        //                 id : author.id,
+        //                 authorName : author.authorName ,
+        //                 bookName: book.bookName
+        //             };
+        //             results.push(author);
+        //         }
+        //     });
+        // });
+        res.json(results);
     } catch (error) {
-        next(error)
+        next(error);
 
     }
 
@@ -42,19 +51,19 @@ export const allAuthors = async (req: Request, res: Response, next: NextFunction
 
 export const getAuthor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         const model = await Author();
         const author = await model.findOne({
             id,
-        })
-        res.json(author)
+        });
+        res.json(author);
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
 
 export const addAuthor = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body)
+    console.log(req.body);
     // console.log(req.body)
     try {
         const model = await Author();
@@ -62,12 +71,12 @@ export const addAuthor = async (req: Request, res: Response, next: NextFunction)
             {
                 name: req.body.name,
                 id: req.body.id
-            })
-        console.log("lava")
-        res.json(author)
+            });
+        console.log('lava');
+        res.json(author);
     } catch (error) {
-        next(error)
-        console.log("vata")
+        next(error);
+        console.log('vata');
 
     }
 };
